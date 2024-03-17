@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List</title>
+</head>
+<body>
+    <th:block th:include="common/header.html"></th:block>
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan="17">전체 조회</th>
+            </tr>
+            <tr>
+                <th>동물번호</th>
+                <th>개체구분</th>
+                <th>품종명</th>
+                <th>성별</th>
+                <th>모색</th>
+                <th>나이</th>
+                <th>무게</th>
+                <th>내장칩</th>
+                <th>중성화</th>
+                <th>목걸이</th>
+                <th>구조일자</th>
+                <th>포획장소</th>
+                <th>건강상태</th>
+                <th>처리상태</th>
+                <th>처리날짜</th>
+                <th>상세내용</th>
+                <th>입소상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ani : ${logList}">
+                <td th:text="${ani.animalDTO.animalCode}"></td>
+                <td th:text="${ani.animalDTO.categoryDTO.refCategoryName}"></td>
+                <td th:text="${ani.animalDTO.categoryDTO.categoryName}"></td>
+<!--                <td th:if="${ani.animalDTO != null}" th:text="${ani.animalDTO.getAnimalGender()}"></td>-->
+<!--                <td th:unless="${ani.animalDTO != null}">AnimalDTO is null</td>-->
+<!--                <td th:if="${ani.animalDTO != null}" th:text="${ani.animalDTO.getAnimalGender()}"></td>-->
+                <td th:text="${ani.animalDTO.animalGender}"></td>
+                <td th:text="${ani.animalDTO.animalColor}"></td>
+                <td th:text="${ani.animalDTO.animalAge}"></td>
+                <td th:text="${ani.animalDTO.animalWeight}"></td>
+                <td th:text="${ani.animalDTO.builtInChip}"></td>
+                <td th:text="${ani.animalDTO.neuteringSurgery}"></td>
+                <td th:text="${ani.animalDTO.animalCollar}"></td>
+                <td th:text="${ani.animalDTO.rescueDate}"></td>
+                <td th:text="${ani.animalDTO.capturePlace}"></td>
+                <td th:text="${ani.animalDTO.healthCondition}"></td>
+                <td th:text="${ani.statusDTO.statusName}"></td>
+                <td th:text="${ani.logDate}"></td>
+                <td th:text="${ani.logRemark}"></td>
+                <td th:text="${ani.admissionStatus}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

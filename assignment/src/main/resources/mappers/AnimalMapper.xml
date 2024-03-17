@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.assignment.model.dao.AnimalMapper">
+    <resultMap id="AnimalLogResultMap" type="AnimalLogDTO">
+        <id property="logCode" column="log_code"/>
+        <result property="logDate" column="log_date"/>
+        <result property="logRemark" column="log_remark"/>
+        <result property="admissionStatus" column="admission_status"/>
+        <association property="statusDTO" javaType="StatusDTO">
+            <id property="statusCode" column="status_code"/>
+            <result property="statusName" column="status_name"/>
+        </association>
+        <association property="animalDTO" javaType="AnimalDTO">
+            <id property="animalCode" column="animal_code"/>
+            <result property="animalGender" column="animal_gender"/>
+            <result property="animalColor" column="animal_color"/>
+            <result property="animalAge" column="animal_age"/>
+            <result property="animalWeight" column="animal_weight"/>
+            <result property="builtInChip" column="built_in_chip"/>
+            <result property="neuteringSurgery" column="neutering_surgery"/>
+            <result property="animalCollar" column="animal_collar"/>
+            <result property="rescueDate" column="rescue_date"/>
+            <result property="capturePlace" column="capture_place"/>
+            <result property="healthCondition" column="health_condition"/>
+            <association property="categoryDTO" javaType="CategoryDTO">
+                <id property="categoryCode" column="category_code"/>
+                <result property="categoryName" column="category_name"/>
+                <result property="refCategoryCode" column="ref_category_code"/>
+                <result property="refCategoryName" column="ref_category_name"/>
+            </association>
+        </association>
+    </resultMap>
+    <select id="AllList" resultType="AnimalLogDTO" resultMap="AnimalLogResultMap">
+        SELECT
+            a.*,
+            b.*,
+            c.*,
+            d.*,
+            e.category_name ref_category_name
+        FROM
+            tbl_animal_log a
+                JOIN
+            tbl_animal b ON (a.animal_code = b.animal_code)
+                JOIN
+            tbl_state_change c ON (a.status_code = c.status_code)
+                JOIN
+            tbl_category d ON (b.category_code = d.category_code)
+                JOIN
+            tbl_category e ON (d.ref_category_code = e.category_code)
+        WHERE
+            d.ref_category_code IS NOT NULL
+        ORDER BY
+            b.animal_code;
+    </select>
+
+    <select id="findCategoryList" resultType="CategoryDTO">
+        SELECT
+            category_name,
+            category_code,
+            ref_category_code
+        FROM
+            tbl_category
+        WHERE
+            ref_category_code IS NOT NULL
+        ORDER BY
+            category_code
+    </select>
+    <select id="findStatusList" resultType="StatusDTO">
+        SELECT
+            status_name,
+            status_code
+        FROM
+            tbl_state_change
+        ORDER BY
+            status_code
+    </select>
+
+    <insert id="insertAnimal" parameterType="AnimalDTO">
+        <selectKey keyProperty="animalCode" order="AFTER" resultType="_int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO
+            tbl_animal(animal_gender, animal_color, animal_age, animal_weight, built_in_chip, neutering_surgery, animal_collar, rescue_date, capture_place, health_condition, category_code)
+        VALUES
+            (#{ animalGender }, #{ animalColor }, #{ animalAge }, #{ animalWeight }, #{ builtInChip }, #{ neuteringSurgery }, #{ animalCollar }, #{ rescueDate }, #{ capturePlace }, #{ healthCondition }, #{ categoryCode })
+    </insert>
+    <insert id="insertAnimalLog" parameterType="AnimalLogDTO">
+        INSERT INTO
+            tbl_animal_log(log_date, log_remark, admission_status, status_code, animal_code)
+        VALUES
+            (#{ logDate }, #{ logRemark }, #{ admissionStatus }, #{ statusCode }, #{ animalCode })
+    </insert>
+<!--    <insert id="insertAnimal" parameterType="AnimalDTO">-->
+<!--        <selectKey keyProperty="animalCode" order="AFTER" resultType="_int">-->
+<!--            SELECT LAST_INSERT_ID()-->
+<!--        </selectKey>-->
+<!--        INSERT INTO-->
+<!--        tbl_animal(animal_gender, animal_color, animal_age, animal_weight, built_in_chip, neutering_surgery, animal_collar, rescue_date, capture_place, health_condition, category_code)-->
+<!--        VALUES-->
+<!--        (#{ animalGender }, #{ animalColor }, #{ animalAge }, #{ animalWeight }, #{ builtInChip }, #{ neuteringSurgery }, #{ animalCollar }, #{ rescueDate }, #{ capturePlace }, #{ healthCondition }, #{ categoryCode })-->
+<!--    </insert>-->
+<!--    <insert id="insertAnimalLog" parameterType="AnimalLogDTO">-->
+<!--        INSERT INTO-->
+<!--            tbl_animal_log(log_date, log_remark, admission_status, status_code, animal_code)-->
+<!--        VALUES-->
+<!--            (#{ logDate }, #{ logRemark }, #{ admissionStatus }, #{ statusCode }, #{ animalCode })-->
+<!--    </insert>-->
+</mapper>

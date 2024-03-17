@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="spring.assignment.model.service.AnimalServiceTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-17T18:07:44" hostname="DESKTOP-O4DHQL7" time="0.98">
+  <properties/>
+  <testcase name="testAllList()" classname="spring.assignment.model.service.AnimalServiceTests" time="0.98"/>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.3)
+
+2024-03-18T03:07:42.715+09:00  INFO 15088 --- [    Test worker] s.a.model.service.AnimalServiceTests     : Starting AnimalServiceTests using Java 17.0.3 with PID 15088 (started by USER in E:\Himedia\lecture\lecture\10_spring\assignment)
+2024-03-18T03:07:42.717+09:00  INFO 15088 --- [    Test worker] s.a.model.service.AnimalServiceTests     : No active profile set, falling back to 1 default profile: "default"
+2024-03-18T03:07:43.760+09:00  INFO 15088 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-03-18T03:07:44.034+09:00  INFO 15088 --- [    Test worker] s.a.model.service.AnimalServiceTests     : Started AnimalServiceTests in 1.518 seconds (process running for 2.385)
+2024-03-18T03:07:44.688+09:00  INFO 15088 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-03-18T03:07:44.980+09:00  INFO 15088 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5de243bb
+2024-03-18T03:07:44.982+09:00  INFO 15088 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

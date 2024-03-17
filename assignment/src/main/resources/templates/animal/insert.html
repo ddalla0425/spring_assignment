@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert</title>
+</head>
+<body>
+    <th:block th:replace="common/header.html"></th:block>
+    <form action="insert" method="post">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th colspan="2">신규 동물 등록</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>성별</th>
+                    <td>
+                        <select name="animalGender">
+                            <option value="암컷">암컷</option>
+                            <option value="수컷">수컷</option>
+                            <option value="모름">모름</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>모색</th>
+                    <td>
+                        <label><input type="checkbox" name="animalColor" value="흰색" checked>흰색</label>
+                        <label><input type="checkbox" name="animalColor" value="검정색" >검정색</label>
+                        <label><input type="checkbox" name="animalColor" value="갈색" >갈색</label>
+                        <label><input type="checkbox" name="animalColor" value="회색" >회색</label>
+                        <label><input type="checkbox" name="animalColor" value="노란색" >노란색</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>나이</th>
+                    <td>
+                        <select name="animalAge">
+                            <option value="모름">모름</option>
+                            <option value="1살">1살</option>
+                            <option value="2살">2살</option>
+                            <option value="3살">3살</option>
+                            <option value="4살">4살</option>
+                            <option value="5살">5살</option>
+                            <option value="6살">6살</option>
+                            <option value="7살">7살</option>
+                            <option value="8살">8살</option>
+                            <option value="9살">9살</option>
+                            <option value="10살 이상">10살 이상</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>체중</th>
+                    <td>
+                        <input type="text" name="animalWeight"><br>
+                        *잘 모르겠다면 "모름" 을 입력해주세요.
+                    </td>
+                </tr>
+                <tr>
+                    <th>내장칩</th>
+                    <td>
+                        <select name="builtInChip">
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                            <option value="모름">모름</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>중성화</th>
+                    <td>
+                        <select name="neuteringSurgery">
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                            <option value="모름">모름</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>목걸이</th>
+                    <td>
+                        <select name="animalCollar">
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                            <option value="모름">모름</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>구조일자</th>
+                    <td><input type="date" name="rescueDateBefore" id="dateBefore"><input type="hidden" name="rescueDate" id="dateAfter"></td>
+                </tr>
+                <tr>
+                    <th>포획장소</th>
+                    <td><input type="text" name="capturePlace"></td>
+                </tr>
+                <tr>
+                    <th>건강상태</th>
+                    <td>
+                        <select name="healthCondition">
+                            <option value="양호">양호</option>
+                            <option value="불량">불량</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>품종</th>
+                    <td>
+                        <select name="categoryCode" id="categoryCode"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>처리상태</th>
+                    <td>
+                        <select name="statusCode" id="statusCode"></select>
+                        <input type="hidden" name="logDate" id="logDate">
+<!--                        <input type="hidden" name="AnimalLogDTO.animalCode" id="animalCode" th:value="${}">-->
+                    </td>
+                </tr>
+                <tr >
+                    <th>상세내용</th>
+                    <td>
+                        <input type="text" name="logRemark" id="logRemark">
+                    </td>
+                </tr>
+                <tr>
+                    <th>입소상태</th>
+                    <td>
+                        <select name="admissionStatus">
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="등록">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <script>
+        fetch('/animal/category').then(res => res.json()).then(data => {
+            //console.log(data);
+
+            const $categoryCode = document.querySelector('#categoryCode');
+
+            data.forEach(category => {
+                const $option = document.createElement('option');
+                $option.textContent = category.categoryName;
+                $option.value = category.categoryCode;
+
+                $categoryCode.appendChild($option);
+            })
+        })
+        fetch('/animal/status').then(res => res.json()).then(data => {
+            //console.log(data);
+
+            const $statusCode = document.querySelector('#statusCode');
+
+            data.forEach(status => {
+                const $option = document.createElement('option');
+                $option.textContent = status.statusName;
+                $option.value = status.statusCode;
+
+                $statusCode.appendChild($option);
+            })
+        })
+
+
+        document.getElementById("dateBefore").addEventListener("change", function() {
+            let originalDate = this.value; // 입력된 날짜 값
+            let formattedDate = originalDate.replace(/-/g, ""); // yyyyMMdd 형식으로 변환
+            document.getElementById("dateAfter").value = formattedDate; // 변환된 값 숨겨진 필드에 설정
+        });
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
+
+        if(month < 10) month = '0' + month;
+        if(day < 10) day = '0' + day;
+        today = year + month + day;
+
+        document.getElementById("logDate").value = today;
+        //console.log(today);
+    </script>
+</body>
+</html>
